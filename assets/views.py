@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from assets.models import Company, Employee, Device
-from .forms import CompanyForm, EmployeeForm
+from .forms import CompanyForm, EmployeeForm, DeviceForm
 
 
 def company_list(request):
@@ -38,3 +38,27 @@ def add_employee(request):
 def device_list(request):
     devices = Device.objects.all()
     return render(request, 'device_list.html', {'devices': devices})
+
+
+def add_device(request):
+    if request.method == 'POST':
+        form = DeviceForm(request.POST)
+        if form.is_valid():
+            device_id = form.cleaned_data['device_id']
+            name = form.cleaned_data['name']
+            serial_number = form.cleaned_data['serial_number']
+            description = form.cleaned_data['description']
+
+            device = Device(
+                id=device_id,
+                name=name,
+                serial_number=serial_number,
+                description=description,
+            )
+
+            device.save()
+            return redirect('device_list')
+    else:
+        form = DeviceForm()
+    return render(request, 'add_device.html', {'form': form})
+
