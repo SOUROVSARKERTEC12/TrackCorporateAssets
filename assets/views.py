@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from assets.models import Company, Employee
+from assets.models import Company, Employee, Device
 from .forms import CompanyForm, EmployeeForm
 
 
@@ -35,3 +35,6 @@ def add_employee(request):
     return render(request, 'add_employee.html', {'form': form})
 
 
+def device_list(request):
+    devices = Device.objects.all()
+    return render(request, 'device_list.html', {'devices': devices})

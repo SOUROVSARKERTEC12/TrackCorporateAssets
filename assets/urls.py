@@ -9,4 +9,7 @@ urlpatterns = [
     # Employees
     path('employees/', views.employee_list, name='employee_list'),
     path('add_employee/', views.add_employee, name='add_employee'),
+
+    # Devices
+    path('devices/', views.device_list, name='device_list'),
 ]

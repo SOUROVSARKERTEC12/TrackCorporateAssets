@@ -18,3 +18,14 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Device(models.Model):
+    name = models.CharField(max_length=100)
+    serial_number = models.CharField(max_length=50)
+    description = models.TextField()
+    assigned_to = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
+    current_condition = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.name
