@@ -1,5 +1,5 @@
 from django import forms
-from .models import Company
+from .models import Company, Employee
 
 
 class CompanyForm(forms.ModelForm):
@@ -7,3 +7,8 @@ class CompanyForm(forms.ModelForm):
         model = Company
         fields = ['name', 'description']
 
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ['name', 'email', 'company']
