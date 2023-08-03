@@ -12,4 +12,7 @@ urlpatterns = [
 
     # Devices
     path('devices/', views.device_list, name='device_list'),
+    path('add_device/', views.add_device, name='add_device'),
+    path('device/<int:device_id>/checkout/', views.device_checkout, name='device_checkout'),
+    path('device/<int:device_id>/return/', views.device_return, name='device_return'),
 ]

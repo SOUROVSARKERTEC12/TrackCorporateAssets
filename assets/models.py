@@ -29,3 +29,15 @@ class Device(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class DeviceLog(models.Model):
+    device = models.ForeignKey(Device, on_delete=models.CASCADE)
+    checked_out_by = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name='checkouts')
+    checked_out_date = models.DateTimeField()
+    returned_date = models.DateTimeField(null=True, blank=True)
+    condition_at_checkout = models.TextField()
+    condition_at_return = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.device} - {self.checked_out_by}"

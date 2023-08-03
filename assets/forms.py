@@ -1,5 +1,5 @@
 from django import forms
-from .models import Company, Employee, Device
+from .models import Company, Employee, Device, DeviceLog
 
 
 class CompanyForm(forms.ModelForm):
@@ -22,3 +22,13 @@ class DeviceForm(forms.ModelForm):
         fields = ['device_id', 'name', 'serial_number', 'description', 'assigned_to']
 
 
+class DeviceCheckoutForm(forms.ModelForm):
+    class Meta:
+        model = DeviceLog
+        fields = ['checked_out_by', 'checked_out_date', 'condition_at_checkout']
+
+
+class DeviceReturnForm(forms.ModelForm):
+    class Meta:
+        model = DeviceLog
+        fields = ['returned_date', 'condition_at_return']

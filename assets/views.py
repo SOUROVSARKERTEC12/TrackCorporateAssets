@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from assets.models import Company, Employee, Device
-from .forms import CompanyForm, EmployeeForm, DeviceForm
+from assets.models import Company, Employee, Device, DeviceLog
+from .forms import CompanyForm, EmployeeForm, DeviceForm, DeviceCheckoutForm, DeviceReturnForm
 
 
 def company_list(request):
@@ -62,3 +62,51 @@ def add_device(request):
         form = DeviceForm()
     return render(request, 'add_device.html', {'form': form})
 
+
+def device_checkout(request, device_id):
+    device = Device.objects.get(pk=device_id)
+    if request.method == 'POST':
+        form = DeviceCheckoutForm(request.POST)
+        if form.is_valid():
+            checked_out_by = form.cleaned_data['checked_out_by']
+            checked_out_date = form.cleaned_data['checked_out_date']
+            condition_at_checkout = form.cleaned_data['condition_at_checkout']
+
+            device_log = DeviceLog.objects.create(
+                device=device,
+                checked_out_by=checked_out_by,
+                checked_out_date=checked_out_date,
+                condition_at_checkout=condition_at_checkout,
+            )
+
+            device.assigned_to = checked_out_by
+            device.current_condition = condition_at_checkout
+            device.save()
+
+            return redirect('device_list')
+    else:
+        form = DeviceCheckoutForm()
+    return render(request, 'device_checkout.html', {'form': form, 'device': device})
+
+
+def device_return(request, device_id):
+    device = Device.objects.get(pk=device_id)
+    if request.method == 'POST':
+        form = DeviceReturnForm(request.POST)
+        if form.is_valid():
+            returned_date = form.cleaned_data['returned_date']
+            condition_at_return = form.cleaned_data['condition_at_return']
+
+            device_log = DeviceLog.objects.get(device=device, returned_date=None)
+            device_log.returned_date = returned_date
+            device_log.condition_at_return = condition_at_return
+            device_log.save()
+
+            device.assigned_to = None
+            device.current_condition = condition_at_return
+            device.save()
+
+            return redirect('device_list')
+    else:
+        form = DeviceReturnForm()
+    return render(request, 'device_return.html', {'form': form, 'device': device})
