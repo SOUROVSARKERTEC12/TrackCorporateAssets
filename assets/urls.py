@@ -15,4 +15,20 @@ urlpatterns = [
     path('add_device/', views.add_device, name='add_device'),
     path('device/<int:device_id>/checkout/', views.device_checkout, name='device_checkout'),
     path('device/<int:device_id>/return/', views.device_return, name='device_return'),
+
+    # Companies
+    path('api/companies/', views.CompanyListView.as_view(), name='api-company-list'),
+    path('api/companies/<int:pk>/', views.CompanyDetailView.as_view(), name='api-company-detail'),
+
+    # Employees
+    path('api/employees/', views.EmployeeListView.as_view(), name='api-employee-list'),
+    path('api/employees/<int:pk>/', views.EmployeeDetailView.as_view(), name='api-employee-detail'),
+
+    # Devices
+    path('api/devices/', views.DeviceListView.as_view(), name='api-device-list'),
+    path('api/devices/<int:pk>/', views.DeviceDetailView.as_view(), name='api-device-detail'),
+
+    # Device Logs
+    path('api/device-logs/', views.DeviceLogListView.as_view(), name='api-device-log-list'),
+    path('api/device-logs/<int:pk>/', views.DeviceLogDetailView.as_view(), name='api-device-log-detail'),
 ]

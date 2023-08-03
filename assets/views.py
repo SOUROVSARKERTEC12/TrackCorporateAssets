@@ -1,6 +1,8 @@
+from rest_framework import generics
 from django.shortcuts import render, redirect
 from assets.models import Company, Employee, Device, DeviceLog
 from .forms import CompanyForm, EmployeeForm, DeviceForm, DeviceCheckoutForm, DeviceReturnForm
+from .serializers import CompanySerializer, EmployeeSerializer, DeviceSerializer, DeviceLogSerializer
 
 
 def company_list(request):
@@ -110,3 +112,43 @@ def device_return(request, device_id):
     else:
         form = DeviceReturnForm()
     return render(request, 'device_return.html', {'form': form, 'device': device})
+
+
+class CompanyListView(generics.ListCreateAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+
+class CompanyDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Company.objects.all()
+    serializer_class = CompanySerializer
+
+
+class EmployeeListView(generics.ListCreateAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+
+class EmployeeDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+
+
+class DeviceListView(generics.ListCreateAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+
+
+class DeviceDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Device.objects.all()
+    serializer_class = DeviceSerializer
+
+
+class DeviceLogListView(generics.ListCreateAPIView):
+    queryset = DeviceLog.objects.all()
+    serializer_class = DeviceLogSerializer
+
+
+class DeviceLogDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DeviceLog.objects.all()
+    serializer_class = DeviceLogSerializer
